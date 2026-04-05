@@ -44,6 +44,9 @@ data/raw/
 GPT.md
 exp_README.md
 
+# Sandbox (agent loop working directory — modified by the acting model)
+sandbox/project/
+
 # Operational / project management files
 plans/
 SESSIONS.md
