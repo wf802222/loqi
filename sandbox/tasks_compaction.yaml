@@ -1,0 +1,109 @@
+# Compaction experiment tasks.
+#
+# Phase 1 (tasks 1-5): Tasks that teach/reinforce project policies.
+#   Both systems have rules in context. Loqi learns.
+#
+# [COMPACTION EVENT: context erased, code reset to neutral state]
+#
+# Phase 2 (tasks 6-10): Tasks that REQUIRE policy knowledge.
+#   Without Loqi: model must guess (policies invisible in code).
+#   With Loqi: triggers re-inject the relevant policy.
+#
+# Key: these policies CANNOT be inferred from reading the code.
+
+tasks:
+
+  # === Phase 1: Teaching / reinforcing policies ===
+
+  - id: task_001
+    instruction: >
+      We need to add a caching layer. What technology should we use
+      and how should it interact with our data storage?
+    relevant_policy: "Database Choice"
+    check_for: ["postgresql", "redis"]
+    check_against: ["mongodb", "sqlite"]
+    why: "Model should recommend PostgreSQL primary + Redis cache, not MongoDB"
+
+  - id: task_002
+    instruction: >
+      The team wants to ship a hotfix today (Thursday).
+      Write the deployment plan.
+    relevant_policy: "Deployment Windows"
+    check_for: ["monday", "tuesday", "wednesday", "not deploy", "wait", "friday"]
+    check_against: ["deploy today", "ship now", "push to production"]
+    why: "Model should warn against Thursday deploy"
+
+  - id: task_003
+    instruction: >
+      Write the implementation plan for adding Stripe subscription
+      billing to the app.
+    relevant_policy: "Payment Feature Flags"
+    check_for: ["feature flag", "launchdarkly", "bake period", "rollout"]
+    check_against: []
+    why: "Model should require feature flag for payment code"
+
+  - id: task_004
+    instruction: >
+      We need to change the /users endpoint to return a new field
+      called 'department'. Write the migration plan.
+    relevant_policy: "API Versioning"
+    check_for: ["backwards-compatible", "version", "mobile", "breaking"]
+    check_against: ["just add the field", "modify the response"]
+    why: "Model should mention backwards compatibility and versioning"
+
+  - id: task_005
+    instruction: >
+      An exception was thrown in the payment service but we're not
+      sure what happened. How should we improve error handling?
+    relevant_policy: "Error Reporting"
+    check_for: ["sentry", "context", "user id", "never swallow", "catch"]
+    check_against: ["pass", "ignore", "silent"]
+    why: "Model should recommend Sentry reporting with full context"
+
+  # === Phase 2: Post-compaction — policies required but not in context ===
+
+  - id: task_006
+    instruction: >
+      A new engineer is proposing we switch our primary database
+      from PostgreSQL to MongoDB for the new microservice. Write
+      a response explaining our database policy.
+    relevant_policy: "Database Choice"
+    check_for: ["postgresql", "migration", "disaster", "downtime"]
+    check_against: ["sounds good", "mongodb is fine", "go ahead"]
+    why: "Without the policy, model might agree MongoDB is fine"
+
+  - id: task_007
+    instruction: >
+      It's Thursday afternoon and we found a critical bug in checkout.
+      The PM wants to deploy the fix immediately. What do we do?
+    relevant_policy: "Deployment Windows"
+    check_for: ["thursday", "friday", "mobile", "wait", "monday", "risk"]
+    check_against: ["deploy now", "push immediately"]
+    why: "Without the policy, model would say deploy the critical fix"
+
+  - id: task_008
+    instruction: >
+      Write the plan for rolling out the new payment retry logic
+      to production.
+    relevant_policy: "Payment Feature Flags"
+    check_for: ["feature flag", "launchdarkly", "bake", "gradual", "rollout"]
+    check_against: []
+    why: "Without the policy, model might skip feature flags entirely"
+
+  - id: task_009
+    instruction: >
+      The product team wants to rename the 'role' field in the
+      user API to 'access_level'. How should we handle this?
+    relevant_policy: "API Versioning"
+    check_for: ["version", "backwards", "mobile", "breaking", "v2"]
+    check_against: ["rename it", "just change it"]
+    why: "Without the policy, model might suggest a simple rename"
+
+  - id: task_010
+    instruction: >
+      Write error handling guidelines for the new billing
+      reconciliation service.
+    relevant_policy: "Error Reporting"
+    check_for: ["sentry", "context", "user id", "request", "never swallow"]
+    check_against: ["log and continue", "pass", "ignore"]
+    why: "Without the policy, model gives generic error handling advice"

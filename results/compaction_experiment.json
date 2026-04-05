@@ -1,0 +1,299 @@
+{
+  "with_loqi": [
+    {
+      "task": "task_001",
+      "phase": "pre",
+      "score": 0.5,
+      "found": [
+        "postgresql",
+        "redis"
+      ],
+      "missed": [],
+      "violations": [
+        "mongodb"
+      ]
+    },
+    {
+      "task": "task_002",
+      "phase": "pre",
+      "score": 0.16666666666666666,
+      "found": [
+        "friday"
+      ],
+      "missed": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "not deploy",
+        "wait"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_003",
+      "phase": "pre",
+      "score": 0.75,
+      "found": [
+        "feature flag",
+        "launchdarkly",
+        "rollout"
+      ],
+      "missed": [
+        "bake period"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_004",
+      "phase": "pre",
+      "score": 0.25,
+      "found": [
+        "mobile"
+      ],
+      "missed": [
+        "backwards-compatible",
+        "version",
+        "breaking"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_005",
+      "phase": "pre",
+      "score": 0.6,
+      "found": [
+        "sentry",
+        "context",
+        "user id"
+      ],
+      "missed": [
+        "never swallow",
+        "catch"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_006",
+      "phase": "post",
+      "score": 1.0,
+      "found": [
+        "postgresql",
+        "migration",
+        "disaster",
+        "downtime"
+      ],
+      "missed": [],
+      "violations": []
+    },
+    {
+      "task": "task_007",
+      "phase": "post",
+      "score": 0.16666666666666666,
+      "found": [
+        "mobile"
+      ],
+      "missed": [
+        "thursday",
+        "friday",
+        "wait",
+        "monday",
+        "risk"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_008",
+      "phase": "post",
+      "score": 0.8,
+      "found": [
+        "feature flag",
+        "launchdarkly",
+        "bake",
+        "rollout"
+      ],
+      "missed": [
+        "gradual"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_009",
+      "phase": "post",
+      "score": 0.4,
+      "found": [
+        "version",
+        "mobile",
+        "breaking",
+        "v2"
+      ],
+      "missed": [
+        "backwards"
+      ],
+      "violations": [
+        "rename it"
+      ]
+    },
+    {
+      "task": "task_010",
+      "phase": "post",
+      "score": 0.8,
+      "found": [
+        "sentry",
+        "context",
+        "user id",
+        "request"
+      ],
+      "missed": [
+        "never swallow"
+      ],
+      "violations": []
+    }
+  ],
+  "no_loqi": [
+    {
+      "task": "task_001",
+      "phase": "pre",
+      "score": 1.0,
+      "found": [
+        "postgresql",
+        "redis"
+      ],
+      "missed": [],
+      "violations": []
+    },
+    {
+      "task": "task_002",
+      "phase": "pre",
+      "score": 0.3333333333333333,
+      "found": [
+        "monday",
+        "wednesday"
+      ],
+      "missed": [
+        "tuesday",
+        "not deploy",
+        "wait",
+        "friday"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_003",
+      "phase": "pre",
+      "score": 0.5,
+      "found": [
+        "feature flag",
+        "launchdarkly"
+      ],
+      "missed": [
+        "bake period",
+        "rollout"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_004",
+      "phase": "pre",
+      "score": 0.5,
+      "found": [
+        "version",
+        "breaking"
+      ],
+      "missed": [
+        "backwards-compatible",
+        "mobile"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_005",
+      "phase": "pre",
+      "score": 0.3,
+      "found": [
+        "sentry",
+        "context",
+        "user id"
+      ],
+      "missed": [
+        "never swallow",
+        "catch"
+      ],
+      "violations": [
+        "silent"
+      ]
+    },
+    {
+      "task": "task_006",
+      "phase": "post",
+      "score": 0.25,
+      "found": [
+        "postgresql"
+      ],
+      "missed": [
+        "migration",
+        "disaster",
+        "downtime"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_007",
+      "phase": "post",
+      "score": 0.0,
+      "found": [],
+      "missed": [
+        "thursday",
+        "friday",
+        "mobile",
+        "wait",
+        "monday",
+        "risk"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_008",
+      "phase": "post",
+      "score": 0.4,
+      "found": [
+        "gradual",
+        "rollout"
+      ],
+      "missed": [
+        "feature flag",
+        "launchdarkly",
+        "bake"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_009",
+      "phase": "post",
+      "score": 0.0,
+      "found": [],
+      "missed": [
+        "version",
+        "backwards",
+        "mobile",
+        "breaking",
+        "v2"
+      ],
+      "violations": []
+    },
+    {
+      "task": "task_010",
+      "phase": "post",
+      "score": 0.2,
+      "found": [
+        "context"
+      ],
+      "missed": [
+        "sentry",
+        "user id",
+        "request",
+        "never swallow"
+      ],
+      "violations": []
+    }
+  ]
+}
