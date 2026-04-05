@@ -41,8 +41,11 @@ data/raw/
 .claude/
 
 # Working directories
-sandbox/project/
+sandbox/
 plans/
+results/
 
 # Local-only docs
+BENCHMARKS.md
+CLAUDE.md
 *.local.md

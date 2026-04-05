@@ -80,14 +80,8 @@ Loqi is a research prototype exploring whether AI memory should be proactive rat
 # Install
 uv venv && uv pip install -e ".[dev,benchmarks]"
 
-# Run tests (166 passing)
+# Run tests
 pytest
-
-# Run the compaction experiment (requires Ollama with qwen2.5-coder:14b)
-python sandbox/compaction_experiment.py
-
-# Run the agent loop (10-task coding assistant with memory)
-python sandbox/agent_loop.py --mode loqi_memory
 
 # Run benchmarks
 python scripts/download_benchmarks.py
@@ -97,9 +91,9 @@ python scripts/run_hard_benchmark.py
 ### Requirements
 
 - Python 3.12+
-- [uv](https://docs.astral.sh/uv/) recommended for reproducible installs (lockfile tracked). pip works but resolves dependencies fresh.
-- [Ollama](https://ollama.ai) with `qwen2.5-coder:14b` and `smollm2:1.7b` (for agent loop and LLM gate)
-- No GPU required — all models run on CPU
+- [uv](https://docs.astral.sh/uv/) recommended for reproducible installs (lockfile tracked)
+- [Ollama](https://ollama.ai) with `smollm2:1.7b` for the LLM trigger gate (optional)
+- No GPU required
 
 ## Repository Layout
 
@@ -114,9 +108,9 @@ src/loqi/
   benchmarks/   — data loaders (MuSiQue, HotpotQA, LongMemEval, MemoryAgentBench)
   pipeline/     — PipelineConfig with ablation toggles
 
-sandbox/        — agent loop and compaction experiment
-scripts/        — benchmark runners
-tests/          — 166 unit and integration tests
+scripts/        — benchmark and experiment runners
+tests/          — unit and integration tests
+data/           — custom benchmark scenarios
 ```
 
 ## Contributors
