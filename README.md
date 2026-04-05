@@ -125,7 +125,7 @@ python scripts/run_temporal_benchmark.py # temporal architecture benchmark
 
 - **Wyn Fox** — architecture design, experiment design, project direction
 - **Claude** (Anthropic, Opus 4.6) — implementation, evaluation harness, benchmarks, tests
-- **GPT** (OpenAI, o3) — strategic review, benchmark critique, architecture feedback, documentation
+- **GPT** (OpenAI, GPT-4.5) — strategic review, benchmark critique, architecture feedback, documentation
 
 ## License
 
