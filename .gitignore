@@ -24,33 +24,25 @@ env/
 Thumbs.db
 .DS_Store
 
-# Database files
+# Database
 *.db
 *.sqlite
 
-# Data (large benchmark downloads)
+# Large data
 data/raw/
 *.parquet
 *.arrow
 
-# Environment / secrets
+# Secrets
 .env
 .env.local
 
-# Claude Code local settings and workflow commands
-.claude/settings.local.json
-.claude/commands/
+# Local config
+.claude/
 
-# Private notes
-GPT.md
-exp_README.md
-
-# Sandbox (agent loop working directory — modified by the acting model)
+# Working directories
 sandbox/project/
-
-# Operational / project management files
 plans/
-SESSIONS.md
-ROADMAP.md
-DECISIONS.md
-loqi_handoff.md
+
+# Local-only docs
+*.local.md
