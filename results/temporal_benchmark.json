@@ -1,0 +1,156 @@
+{
+  "summary": {
+    "mean_recall_v2": 1.0,
+    "mean_recall_flat": 1.0,
+    "delta": 0.0,
+    "mean_lead_edges": 4.666666666666667
+  },
+  "per_query": [
+    {
+      "day": 4,
+      "context": "Build a new checkout form component for the payment page",
+      "domain": "frontend",
+      "expected": [
+        "coding_standards.md::s0"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "coding_standards.md::s0"
+      ],
+      "semantic_hits": [
+        "coding_standards.md::s0"
+      ],
+      "trigger_hits": [
+        "coding_standards.md::s0"
+      ],
+      "graph_hits": [],
+      "lead_edges": 2
+    },
+    {
+      "day": 6,
+      "context": "Deploy the Stripe subscription billing feature to production",
+      "domain": "stripe_deploy",
+      "expected": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s2"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s2"
+      ],
+      "semantic_hits": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s2"
+      ],
+      "trigger_hits": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s2"
+      ],
+      "graph_hits": [],
+      "lead_edges": 7
+    },
+    {
+      "day": 6,
+      "context": "Add error handling to the payment webhook retry logic",
+      "domain": "error_handling",
+      "expected": [
+        "api_rate_limits.md::s1",
+        "coding_standards.md::s2"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "api_rate_limits.md::s1",
+        "coding_standards.md::s2"
+      ],
+      "semantic_hits": [
+        "api_rate_limits.md::s1",
+        "coding_standards.md::s2"
+      ],
+      "trigger_hits": [
+        "coding_standards.md::s2"
+      ],
+      "graph_hits": [],
+      "lead_edges": 4
+    },
+    {
+      "day": 7,
+      "context": "Migrate the auth session middleware to use the new JWT tokens",
+      "domain": "auth",
+      "expected": [
+        "deployment_rules.md::s1",
+        "project_auth_redesign.md::s1"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "deployment_rules.md::s1",
+        "project_auth_redesign.md::s1"
+      ],
+      "semantic_hits": [
+        "deployment_rules.md::s1",
+        "project_auth_redesign.md::s1"
+      ],
+      "trigger_hits": [
+        "project_auth_redesign.md::s1"
+      ],
+      "graph_hits": [
+        "deployment_rules.md::s1"
+      ],
+      "lead_edges": 6
+    },
+    {
+      "day": 7,
+      "context": "Write a backwards-compatible migration for the new token schema",
+      "domain": "migration",
+      "expected": [
+        "deployment_rules.md::s1"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "deployment_rules.md::s1"
+      ],
+      "semantic_hits": [
+        "deployment_rules.md::s1"
+      ],
+      "trigger_hits": [
+        "deployment_rules.md::s1"
+      ],
+      "graph_hits": [],
+      "lead_edges": 2
+    },
+    {
+      "day": 8,
+      "context": "Ship the new payment retry service with Stripe webhooks before Thursday",
+      "domain": "complex",
+      "expected": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s0",
+        "deployment_rules.md::s2"
+      ],
+      "recall_v2": 1.0,
+      "recall_flat": 1.0,
+      "hit_v2": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s0",
+        "deployment_rules.md::s2"
+      ],
+      "semantic_hits": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s0",
+        "deployment_rules.md::s2"
+      ],
+      "trigger_hits": [
+        "api_rate_limits.md::s1",
+        "deployment_rules.md::s0",
+        "deployment_rules.md::s2"
+      ],
+      "graph_hits": [],
+      "lead_edges": 7
+    }
+  ]
+}

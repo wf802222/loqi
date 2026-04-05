@@ -1,0 +1,194 @@
+# Trigger Recall Scenarios
+# Tests: does the system proactively surface relevant standing instructions
+# when the incoming context matches, WITHOUT the query mentioning them?
+
+scenarios:
+
+  # --- UI/Frontend triggers ---
+
+  - id: tr_001
+    name: "COC directive fires on React component task"
+    category: trigger_recall
+    context: "Build a new React dropdown component for the settings page"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "UI component work should trigger the COC/FCOC rule"
+    expected_non_triggers:
+      - memory: deployment_rules.md
+        reason: "Not a deployment context"
+      - memory: api_rate_limits.md
+        reason: "Not an API context"
+    baseline_flat_rag: MISS  # no semantic overlap between "dropdown" and "COC"
+
+  - id: tr_002
+    name: "COC directive fires on CSS refactor"
+    category: trigger_recall
+    context: "Refactor the sidebar navigation to use the new design system tokens"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "Sidebar refactor is UI component work"
+    expected_non_triggers:
+      - memory: api_rate_limits.md
+    baseline_flat_rag: MISS
+
+  - id: tr_003
+    name: "COC directive fires on frontend bug fix"
+    category: trigger_recall
+    context: "Fix the modal that's not closing when the user clicks outside it"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "Modal fix is UI component work"
+    baseline_flat_rag: MISS
+
+  # --- API triggers ---
+
+  - id: tr_004
+    name: "snake_case rule fires on new endpoint"
+    category: trigger_recall
+    context: "Add a new REST endpoint for listing user notifications"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "API Conventions"
+        reason: "New REST endpoint should trigger field naming convention"
+    expected_non_triggers:
+      - memory: user_preferences.md
+    baseline_flat_rag: MISS
+
+  - id: tr_005
+    name: "snake_case rule fires on API schema change"
+    category: trigger_recall
+    context: "Update the response schema for the /orders endpoint to include shipping status"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "API Conventions"
+        reason: "Schema change should trigger field naming convention"
+    baseline_flat_rag: MISS
+
+  # --- Deployment triggers ---
+
+  - id: tr_006
+    name: "Merge freeze fires on Thursday PR"
+    category: trigger_recall
+    context: "I want to merge this feature branch to main, it's Thursday afternoon"
+    expected_triggers:
+      - memory: deployment_rules.md
+        section: "Merge Freeze"
+        reason: "Thursday merge should trigger the freeze warning"
+    baseline_flat_rag: PARTIAL  # "merge" might partially match
+
+  - id: tr_007
+    name: "Migration safety fires on column removal"
+    category: trigger_recall
+    context: "Write a migration to drop the legacy_email column from the users table"
+    expected_triggers:
+      - memory: deployment_rules.md
+        section: "Database Migrations"
+        reason: "Column drop should trigger backwards-compatibility rule"
+    baseline_flat_rag: MISS
+
+  - id: tr_008
+    name: "Feature flag rule fires on payment code"
+    category: trigger_recall
+    context: "Implement the new subscription upgrade flow with Stripe"
+    expected_triggers:
+      - memory: deployment_rules.md
+        section: "Feature Flags"
+        reason: "Payment-related feature should trigger feature flag requirement"
+      - memory: api_rate_limits.md
+        section: "Third-Party API Limits"
+        reason: "Stripe work should surface Stripe rate limit awareness"
+    baseline_flat_rag: MISS
+
+  # --- Error handling triggers ---
+
+  - id: tr_009
+    name: "Exception handling rule fires on try/catch code"
+    category: trigger_recall
+    context: "Add error handling to the data import pipeline"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "Error Handling"
+        reason: "Error handling work should trigger the no-silent-failures rule"
+    baseline_flat_rag: PARTIAL
+
+  # --- User preference triggers ---
+
+  - id: tr_010
+    name: "PostgreSQL preference fires on database choice"
+    category: trigger_recall
+    context: "We need to choose a database for the new analytics service"
+    expected_triggers:
+      - memory: user_preferences.md
+        section: "Technology Stack"
+        reason: "Database choice should surface PostgreSQL preference"
+    baseline_flat_rag: MISS
+
+  - id: tr_011
+    name: "Concise style preference fires on explanation request"
+    category: trigger_recall
+    context: "Explain how the caching layer works"
+    expected_triggers:
+      - memory: user_preferences.md
+        section: "Communication Style"
+        reason: "Explanation request should surface communication preference"
+    baseline_flat_rag: MISS
+
+  # --- Auth/compliance triggers ---
+
+  - id: tr_012
+    name: "Auth compliance fires on session handling code"
+    category: trigger_recall
+    context: "Implement session management for the new admin portal"
+    expected_triggers:
+      - memory: project_auth_redesign.md
+        reason: "Session management should surface the auth redesign context and compliance requirements"
+    baseline_flat_rag: PARTIAL
+
+  - id: tr_013
+    name: "Security training fires on payment code by new engineer"
+    category: trigger_recall
+    context: "Priya is picking up the payment refund feature this sprint"
+    expected_triggers:
+      - memory: team_context.md
+        section: "Onboarding"
+        reason: "New engineer on payment code should trigger security training requirement"
+      - memory: deployment_rules.md
+        section: "Feature Flags"
+        reason: "Payment feature should trigger feature flag rule"
+    baseline_flat_rag: MISS
+
+  # --- Cross-domain / multi-trigger ---
+
+  - id: tr_014
+    name: "Multiple triggers fire on complex context"
+    category: trigger_recall
+    context: "Build a new payment settings page with Stripe integration, deploying Thursday"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "Settings page is UI work"
+      - memory: deployment_rules.md
+        section: "Feature Flags"
+        reason: "Payment feature"
+      - memory: deployment_rules.md
+        section: "Merge Freeze"
+        reason: "Thursday deployment"
+      - memory: api_rate_limits.md
+        section: "Third-Party API Limits"
+        reason: "Stripe integration"
+    baseline_flat_rag: MISS
+
+  - id: tr_015
+    name: "OTP flow triggers rate limit and auth awareness"
+    category: trigger_recall
+    context: "Add SMS-based two-factor authentication to the login flow"
+    expected_triggers:
+      - memory: api_rate_limits.md
+        section: "Third-Party API Limits"
+        reason: "SMS/Twilio rate limit is a known bottleneck for OTP"
+      - memory: project_auth_redesign.md
+        reason: "Auth flow change should surface the ongoing redesign context"
+    baseline_flat_rag: MISS

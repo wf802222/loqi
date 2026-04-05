@@ -1,0 +1,117 @@
+# Trigger Precision Scenarios
+# Tests: does the system correctly NOT fire triggers on unrelated context?
+# A high-precision trigger system avoids noisy, irrelevant injections.
+
+scenarios:
+
+  - id: tp_001
+    name: "COC rule does NOT fire on backend data processing"
+    category: trigger_precision
+    context: "Optimize the batch job that processes daily transaction reports"
+    expected_triggers: []
+    expected_non_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "Batch processing is not UI work — COC rule is irrelevant"
+
+  - id: tp_002
+    name: "Merge freeze does NOT fire on Monday"
+    category: trigger_precision
+    context: "I want to merge this feature branch to main, it's Monday morning"
+    expected_triggers: []
+    expected_non_triggers:
+      - memory: deployment_rules.md
+        section: "Merge Freeze"
+        reason: "Monday is not Thursday — freeze doesn't apply"
+
+  - id: tp_003
+    name: "Payment feature flag does NOT fire on non-payment feature"
+    category: trigger_precision
+    context: "Add a dark mode toggle to the user profile page"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "UI Component Rules"
+        reason: "Profile page is UI work"
+    expected_non_triggers:
+      - memory: deployment_rules.md
+        section: "Feature Flags"
+        reason: "Dark mode is not payment-related"
+
+  - id: tp_004
+    name: "PostgreSQL preference does NOT fire on unrelated topic"
+    category: trigger_precision
+    context: "Write unit tests for the email notification service"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "Error Handling"
+        reason: "Test writing may benefit from error handling awareness"
+    expected_non_triggers:
+      - memory: user_preferences.md
+        section: "Technology Stack"
+        reason: "Writing tests doesn't involve database choice"
+
+  - id: tp_005
+    name: "Auth redesign does NOT fire on unrelated API work"
+    category: trigger_precision
+    context: "Add pagination to the product catalog endpoint"
+    expected_triggers:
+      - memory: coding_standards.md
+        section: "API Conventions"
+        reason: "API endpoint work should trigger naming convention"
+    expected_non_triggers:
+      - memory: project_auth_redesign.md
+        reason: "Product catalog has nothing to do with auth"
+
+  - id: tp_006
+    name: "Rate limits do NOT fire on internal-only service"
+    category: trigger_precision
+    context: "Set up a new internal microservice for log aggregation"
+    expected_triggers: []
+    expected_non_triggers:
+      - memory: api_rate_limits.md
+        reason: "Internal service doesn't face public rate limits"
+
+  - id: tp_007
+    name: "Team context does NOT fire on solo technical task"
+    category: trigger_precision
+    context: "Refactor the string parsing utility to handle Unicode edge cases"
+    expected_triggers: []
+    expected_non_triggers:
+      - memory: team_context.md
+        reason: "Solo utility refactor doesn't involve team dynamics"
+
+  - id: tp_008
+    name: "Migration rule does NOT fire on adding a column"
+    category: trigger_precision
+    context: "Write a migration to add a phone_number column to the users table"
+    expected_triggers: []
+    expected_non_triggers:
+      - memory: deployment_rules.md
+        section: "Database Migrations"
+        reason: "Adding a column is safe — the backwards-compatibility rule is about dropping columns"
+
+  - id: tp_009
+    name: "Scheduling preference does NOT fire on code task"
+    category: trigger_precision
+    context: "Implement retry logic for failed webhook deliveries"
+    expected_triggers:
+      - memory: api_rate_limits.md
+        section: "Current Limits"
+        reason: "Webhook delivery has known rate limits"
+    expected_non_triggers:
+      - memory: user_preferences.md
+        section: "Working Hours"
+        reason: "Code implementation has nothing to do with scheduling"
+
+  - id: tp_010
+    name: "Stripe limits do NOT fire on non-Stripe payment"
+    category: trigger_precision
+    context: "Integrate PayPal as an alternative payment method"
+    expected_triggers:
+      - memory: deployment_rules.md
+        section: "Feature Flags"
+        reason: "Payment feature needs feature flag"
+    expected_non_triggers:
+      - memory: api_rate_limits.md
+        section: "Third-Party API Limits"
+        reason: "PayPal rate limits are different — Stripe limits are irrelevant"

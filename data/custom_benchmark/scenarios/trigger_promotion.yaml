@@ -1,0 +1,99 @@
+# Trigger Promotion Scenarios
+# Tests: does the Hebbian learning loop promote frequently-useful connections?
+# These are sequence-based — run queries in order, check if behavior changes.
+
+scenarios:
+
+  - id: tprom_001
+    name: "Repeated API work promotes snake_case awareness"
+    category: trigger_promotion
+    description: >
+      After multiple API-related queries where coding_standards/API Conventions
+      is retrieved via diffuse pass and marked useful, it should promote to a
+      trigger that fires automatically on API context.
+    sequence:
+      - context: "Design the endpoint schema for user profile updates"
+        expect_diffuse_useful: [coding_standards.md]
+      - context: "Add validation to the /invoices POST endpoint"
+        expect_diffuse_useful: [coding_standards.md]
+      - context: "Update the API docs for the new search endpoint"
+        expect_diffuse_useful: [coding_standards.md]
+      - context: "Create a new endpoint for team management"
+        expect_trigger_now: [coding_standards.md]
+        reason: "After 3 useful diffuse retrievals, this should have promoted to trigger"
+
+  - id: tprom_002
+    name: "Repeated Stripe queries promote rate limit awareness"
+    category: trigger_promotion
+    sequence:
+      - context: "Handle Stripe webhook for subscription created events"
+        expect_diffuse_useful: [api_rate_limits.md]
+      - context: "Implement Stripe payment intent creation"
+        expect_diffuse_useful: [api_rate_limits.md]
+      - context: "Add Stripe coupon code redemption flow"
+        expect_diffuse_useful: [api_rate_limits.md]
+      - context: "Build the Stripe invoice preview feature"
+        expect_trigger_now: [api_rate_limits.md]
+        reason: "Stripe + rate limits should have promoted through repeated usefulness"
+
+  - id: tprom_003
+    name: "Unused trigger decays over time"
+    category: trigger_decay
+    description: >
+      A trigger that fires repeatedly but whose injected memory is never marked
+      useful by the synthesis step should decay in confidence.
+    sequence:
+      - context: "Write a Python script to analyze server logs"
+        trigger_fires: [coding_standards.md]
+        marked_useful: false
+      - context: "Build a CLI tool for database backup verification"
+        trigger_fires: [coding_standards.md]
+        marked_useful: false
+      - context: "Create a data migration script for the new schema"
+        trigger_fires: [coding_standards.md]
+        marked_useful: false
+      - context: "Write a script to rotate API keys"
+        expect_trigger_decayed: [coding_standards.md]
+        reason: "After 3 firings with no usefulness, trigger confidence should have decayed"
+
+  - id: tprom_004
+    name: "Cross-domain connection emerges from co-activation"
+    category: trigger_promotion
+    description: >
+      When auth_redesign and deployment_rules are repeatedly co-retrieved
+      and both marked useful, a new edge should form between them. Eventually
+      retrieving one should pull in the other.
+    sequence:
+      - context: "Plan the rollout of the new JWT auth system"
+        co_retrieved_useful: [project_auth_redesign.md, deployment_rules.md]
+      - context: "Schedule the auth middleware cutover"
+        co_retrieved_useful: [project_auth_redesign.md, deployment_rules.md]
+      - context: "Review the auth migration timeline"
+        co_retrieved_useful: [project_auth_redesign.md, deployment_rules.md]
+      - context: "Check on the auth system progress"
+        expect_co_retrieved: [project_auth_redesign.md, deployment_rules.md]
+        reason: "Auth and deployment rules should now be strongly connected through co-activation"
+
+  - id: tprom_005
+    name: "Full promotion lifecycle: diffuse -> soft -> hard -> trigger"
+    category: trigger_promotion
+    description: >
+      End-to-end test of the complete promotion path.
+      A connection starts as a diffuse hit, gets promoted to soft edge,
+      then hard edge, then finally to a trigger.
+    sequence:
+      - context: "Research best practices for webhook retry logic"
+        expect_edge_type: {from: api_rate_limits.md, to: coding_standards.md, type: none}
+      - context: "Implement webhook retry with exponential backoff"
+        mark_useful: [api_rate_limits.md, coding_standards.md]
+        expect_edge_type: {from: api_rate_limits.md, to: coding_standards.md, type: diffuse}
+      - context: "Add circuit breaker to webhook delivery"
+        mark_useful: [api_rate_limits.md, coding_standards.md]
+        expect_edge_type: {from: api_rate_limits.md, to: coding_standards.md, type: soft}
+      - context: "Handle webhook timeout errors gracefully"
+        mark_useful: [api_rate_limits.md, coding_standards.md]
+        expect_edge_type: {from: api_rate_limits.md, to: coding_standards.md, type: hard}
+      - context: "Set up monitoring for webhook failures"
+        mark_useful: [api_rate_limits.md, coding_standards.md]
+        expect_edge_type: {from: api_rate_limits.md, to: coding_standards.md, type: trigger}
+        reason: "After 4 co-activations, the edge should have promoted through the full lifecycle"

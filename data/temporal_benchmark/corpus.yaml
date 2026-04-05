@@ -1,0 +1,365 @@
+# Temporal Benchmark Corpus
+#
+# Designed so flat semantic RAG fails on hard queries.
+# Multiple sections share vocabulary but differ in operational meaning.
+# The right answer requires temporal context (what was learned earlier)
+# or graph structure (which sections co-activate).
+#
+# 8 documents, ~30 sections, introduced over 14 simulated days.
+
+documents:
+
+  # --- Day 1 ---
+  - id: coding_standards.md
+    title: Coding Standards
+    day: 1
+    content: |
+      # Coding Standards
+
+      ## UI Component Rules
+      Always use COC (Component-on-Component) pattern in all UI components.
+      Never use FCOC. This was decided after the Q2 refactor broke three
+      production pages. All new components must follow this pattern.
+
+      ## API Naming Conventions
+      All REST endpoints must use snake_case for field names. The mobile
+      team auto-generates Swift models from the API schema. Breaking this
+      convention causes a full mobile rebuild.
+
+      ## Error Handling Policy
+      Never swallow exceptions silently. Every catch block must either
+      re-raise, log at WARNING or above, or return an explicit error
+      response. The invoice bug in March was caused by a swallowed exception.
+
+      ## Code Review Requirements
+      All PRs require at least one reviewer from the owning team.
+      Security-sensitive changes require two reviewers including a senior.
+
+  # --- Day 2 ---
+  - id: deployment_rules.md
+    title: Deployment Rules
+    day: 2
+    content: |
+      # Deployment Rules
+
+      ## Merge Freeze
+      No non-critical merges to main after Thursday each sprint. The mobile
+      team cuts their release branch on Friday morning. Violating the freeze
+      requires director approval.
+
+      ## Database Migration Policy
+      All migrations must be backwards-compatible. Never drop a column in the
+      same release that stops using it. Wait one full release cycle. The billing
+      outage in January was caused by a premature column drop.
+
+      ## Feature Flag Requirements
+      New features touching payments must be behind a feature flag. No exceptions.
+      The compliance team requires a 24-hour bake period before full rollout.
+      Feature flags are managed through the LaunchDarkly dashboard.
+
+      ## Rollback Procedures
+      Every deployment must have a documented rollback plan. If a deploy causes
+      error rate to exceed 1%, auto-rollback triggers within 5 minutes.
+
+  # --- Day 3 ---
+  - id: api_rate_limits.md
+    title: API Rate Limits
+    day: 3
+    content: |
+      # API Rate Limits
+
+      ## Public API Limits
+      Public endpoints: 100 requests/minute per IP. Authenticated endpoints:
+      1000 requests/minute per user. Exceeding limits returns HTTP 429.
+
+      ## Third-Party API Limits
+      Stripe: 100 requests/second (we are at ~40 in peak). SendGrid: 600
+      requests/minute for transactional email. Twilio: 1 request/second
+      for SMS (bottleneck for OTP flows).
+
+      ## Rate Limiter Architecture
+      The rate limiter uses a sliding window counter in Redis. Under heavy
+      load (>10K RPM), the counter can drift by up to 5%. This is acceptable
+      for now but needs fixing before enterprise onboarding.
+
+  # --- Day 4 ---
+  - id: incident_reports.md
+    title: Incident Reports
+    day: 4
+    content: |
+      # Incident Reports
+
+      ## January Billing Outage
+      Root cause: a database migration dropped the legacy_billing_id column
+      while the billing service was still reading it. Duration: 4 hours.
+      Resolution: emergency rollback, then re-deploy with column retained.
+      Post-mortem: added backwards-compatibility check to CI pipeline.
+
+      ## March Invoice Bug
+      Root cause: a swallowed exception in the invoice generation pipeline
+      caused partial invoices to be sent without line items. Duration: 2 days
+      before detection. Resolution: added explicit error handling and alerting.
+      Post-mortem: established the Error Handling Policy in coding standards.
+
+      ## April Payment Retry Storm
+      Root cause: the payment retry service had no rate limiting on retries,
+      causing a cascade that hit Stripe's rate limit. Duration: 30 minutes.
+      Resolution: added exponential backoff with jitter to retry logic.
+      Post-mortem: documented Stripe rate limits and added monitoring.
+
+  # --- Day 6 ---
+  - id: auth_redesign.md
+    title: Auth System Redesign
+    day: 6
+    content: |
+      # Auth System Redesign
+
+      ## Background and Motivation
+      Replacing the old session-token auth middleware because legal flagged it
+      for storing tokens in a way that does not meet SOC2 compliance requirements.
+      This is compliance-driven, not tech-debt cleanup.
+
+      ## JWT Architecture Decision
+      Using JWT with short-lived access tokens (15 min) and rotating refresh
+      tokens. The refresh token store is PostgreSQL, not Redis, because we
+      need audit trails for compliance. Token rotation happens every 24 hours.
+
+      ## Migration Plan
+      Old middleware remains functional during 6-week transition. OAuth2 flows
+      must work with both old and new systems. Feature flag AUTH_V2 controls
+      which middleware is active per-request.
+
+  # --- Day 8 ---
+  - id: team_context.md
+    title: Team Context
+    day: 8
+    content: |
+      # Team Context
+
+      ## Team Structure
+      Backend: 4 engineers (Alex leads). Frontend: 3 engineers (Jordan leads).
+      Mobile: 2 engineers (Sam and Priya). DevOps: 1 engineer (Casey).
+
+      ## Onboarding Requirements
+      New engineers must complete security training before touching any
+      payment-related code. This is a compliance requirement, not optional.
+      The training takes approximately 2 days.
+
+      ## API Design Disagreement
+      Alex and Jordan disagree on API design. Alex wants strict REST. Jordan
+      wants GraphQL for frontend flexibility. Current compromise: REST for
+      public API, GraphQL for internal dashboard only.
+
+  # --- Day 9 ---
+  - id: monitoring_setup.md
+    title: Monitoring and Alerting
+    day: 9
+    content: |
+      # Monitoring and Alerting
+
+      ## Error Rate Monitoring
+      Datadog monitors error rates per service. Alert threshold: >0.5% error
+      rate over 5-minute window triggers PagerDuty. Auto-rollback triggers
+      at >1% error rate.
+
+      ## Payment Monitoring
+      Stripe webhook delivery is monitored separately. Alert on: failed delivery
+      >3 consecutive attempts, payment success rate drop below 95%, or unusual
+      refund volume (>2x daily average).
+
+      ## Performance Monitoring
+      P99 latency targets: API endpoints <500ms, dashboard pages <2s, report
+      generation <10s. Latency alerts fire at 2x the target threshold.
+
+  # --- Day 11 ---
+  - id: compliance_requirements.md
+    title: Compliance Requirements
+    day: 11
+    content: |
+      # Compliance Requirements
+
+      ## SOC2 Requirements
+      All authentication tokens must be encrypted at rest. Session data must
+      have audit trails. Access logs retained for 1 year minimum. Annual
+      penetration testing required.
+
+      ## Data Retention Policy
+      Customer PII retained for duration of account plus 90 days. Payment
+      records retained for 7 years (IRS requirement). Anonymization pipeline
+      runs nightly for expired records.
+
+      ## Security Review Process
+      Code changes touching auth, payments, or PII require security review
+      before merge. Security reviewer must be senior-level. Findings tracked
+      in the security findings Jira board.
+
+
+# --- Work queries with expected sections ---
+# Designed so flat semantic RAG fails on the hard ones.
+
+queries:
+
+  # === EASY: Semantic similarity is sufficient ===
+
+  - context: "Build a new dropdown component for the user settings page"
+    day: 5
+    expected: ["coding_standards.md::s0"]  # UI Component Rules
+    difficulty: easy
+    why_easy: "Direct semantic match on UI/component"
+
+  - context: "Add a new REST endpoint for listing user notifications"
+    day: 5
+    expected: ["coding_standards.md::s1"]  # API Naming Conventions
+    difficulty: easy
+    why_easy: "Direct semantic match on REST/endpoint"
+
+  # === SEMANTIC CONFOUND: Multiple sections match semantically ===
+
+  - context: "Handle the retry logic for failed payment webhooks"
+    day: 7
+    expected: ["api_rate_limits.md::s1", "incident_reports.md::s2"]
+    difficulty: semantic_confound
+    why_hard: >
+      'retry' and 'payment' appear in: incident_reports (April storm),
+      api_rate_limits (Stripe limits), deployment_rules (rollback),
+      and monitoring (payment monitoring). Flat RAG will retrieve
+      whichever section has highest embedding similarity to 'retry
+      payment webhook', which may not be the operationally correct ones.
+
+  - context: "Fix the error handling in the billing pipeline"
+    day: 7
+    expected: ["coding_standards.md::s2", "incident_reports.md::s1"]
+    difficulty: semantic_confound
+    why_hard: >
+      'error handling' and 'billing' match: coding_standards error policy,
+      incident_reports March invoice bug AND January billing outage,
+      monitoring error rate. The right answer is the error policy
+      (tells you HOW to handle errors) plus the March bug (the specific
+      precedent). Flat RAG may return the January billing outage instead
+      (which is about migrations, not error handling).
+
+  - context: "Review the security requirements before merging the auth changes"
+    day: 12
+    expected: ["compliance_requirements.md::s2", "coding_standards.md::s3", "auth_redesign.md::s0"]
+    difficulty: semantic_confound
+    why_hard: >
+      'security' and 'auth' appear in: compliance (SOC2, security review),
+      coding_standards (code review), auth_redesign (background, JWT, migration),
+      team_context (onboarding security training). Multiple valid-looking
+      results, but only three are operationally correct for a pre-merge review.
+
+  # === TRAINING: Co-activation episodes to build Hebbian patterns ===
+  # These are work queries that co-activate the section pairs
+  # the co-activation test queries will later need. They simulate
+  # a developer doing real work that naturally pairs these memories.
+
+  # Stripe + rate limits + deployment + incident training
+  - context: "Test the Stripe webhook delivery under load before deploy"
+    day: 8
+    expected: ["api_rate_limits.md::s1", "deployment_rules.md::s2", "incident_reports.md::s2"]
+    difficulty: training
+    why_training: "Co-activates the Stripe triplet"
+
+  - context: "Review the April payment retry postmortem before shipping retries"
+    day: 8
+    expected: ["api_rate_limits.md::s1", "incident_reports.md::s2"]
+    difficulty: training
+    why_training: "Strengthens rate-limits + April incident edge"
+
+  - context: "Check if the new Stripe integration needs a feature flag"
+    day: 9
+    expected: ["api_rate_limits.md::s1", "deployment_rules.md::s2"]
+    difficulty: training
+    why_training: "Strengthens rate-limits + feature-flags edge"
+
+  - context: "Ensure the Stripe retry logic handles the April incident scenario"
+    day: 9
+    expected: ["incident_reports.md::s2", "api_rate_limits.md::s1"]
+    difficulty: training
+    why_training: "Another co-activation of rate-limits + April incident"
+
+  # Auth + deployment + compliance training
+  - context: "Check SOC2 requirements before starting the auth migration"
+    day: 10
+    expected: ["auth_redesign.md::s2", "compliance_requirements.md::s0"]
+    difficulty: training
+    why_training: "Co-activates auth migration plan + SOC2"
+
+  - context: "What rollback procedure applies to the auth middleware change"
+    day: 10
+    expected: ["auth_redesign.md::s2", "deployment_rules.md::s3"]
+    difficulty: training
+    why_training: "Co-activates auth migration + rollback"
+
+  - context: "Review compliance and rollback for the JWT token migration"
+    day: 11
+    expected: ["compliance_requirements.md::s0", "deployment_rules.md::s3", "auth_redesign.md::s2"]
+    difficulty: training
+    why_training: "Full auth triplet co-activation"
+
+  # === LONG-HORIZON: Memory from early days matters much later ===
+
+  - context: "The mobile team is reporting that their auto-generated models are breaking"
+    day: 13
+    expected: ["coding_standards.md::s1"]  # API Naming Conventions (day 1)
+    difficulty: long_horizon
+    why_hard: >
+      The API naming convention was established on day 1. By day 13,
+      many other sections mention API, mobile, or models. But the specific
+      rule about snake_case for mobile auto-generation is the only relevant
+      one. This was 12 days ago and has been buried under 25+ newer sections.
+
+  - context: "We need to drop the old billing columns from the database"
+    day: 14
+    expected: ["deployment_rules.md::s1", "incident_reports.md::s0"]
+    difficulty: long_horizon
+    why_hard: >
+      The migration policy (day 2) and the January billing outage (day 4)
+      are both critical here - the outage was CAUSED by a premature
+      column drop. By day 14, these are old memories buried under newer
+      content about auth, monitoring, and compliance.
+
+  # === CO-ACTIVATION: Learned pattern from earlier work ===
+
+  - context: "Ship the new Stripe webhook handler to production"
+    day: 10
+    expected: ["api_rate_limits.md::s1", "deployment_rules.md::s2", "incident_reports.md::s2"]
+    difficulty: co_activation
+    why_hard: >
+      If earlier queries about Stripe/payment work co-activated rate limits
+      + deployment rules + the April incident, the system should have learned
+      that Stripe work needs all three. A flat RAG system has no memory of
+      prior co-activation patterns.
+    training_context: >
+      Prior queries on days 7 about payment retries should have co-activated
+      api_rate_limits and incident_reports together.
+
+  - context: "Start the auth middleware cutover for the new JWT system"
+    day: 12
+    expected: ["auth_redesign.md::s2", "deployment_rules.md::s3", "compliance_requirements.md::s0"]
+    difficulty: co_activation
+    why_hard: >
+      Auth migration needs the migration plan, rollback procedures, AND
+      SOC2 compliance requirements. If earlier auth-related queries
+      co-activated these together, the system should surface all three.
+
+  # === TRIGGER SUPPRESSION: Similar context, wrong trigger ===
+
+  - context: "Write unit tests for the string parsing utility"
+    day: 10
+    expected: []
+    difficulty: trigger_suppression
+    why_hard: >
+      This is pure utility work. No standing instruction, deployment rule,
+      or compliance requirement is relevant. Triggers for coding standards,
+      error handling, or security review should NOT fire. A noisy trigger
+      system will inject irrelevant memories.
+
+  - context: "Update the README with the new API documentation format"
+    day: 13
+    expected: []
+    difficulty: trigger_suppression
+    why_hard: >
+      Documentation update. The API naming convention is about field names
+      in responses, not about how docs are formatted. Triggers for API
+      conventions should NOT fire here.

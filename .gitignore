@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Database files
+*.db
+*.sqlite
+
+# Data (large benchmark downloads)
+data/raw/
+*.parquet
+*.arrow
+
+# Environment / secrets
+.env
+.env.local
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Private notes
+GPT.md
+exp_README.md
+
+# Operational / project management files
+plans/
+SESSIONS.md
+ROADMAP.md
+DECISIONS.md
+loqi_handoff.md

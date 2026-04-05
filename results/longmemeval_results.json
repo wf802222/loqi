@@ -1,0 +1,498 @@
+{
+  "oracle": {
+    "flat_rag": {
+      "hit_rate": 1.0,
+      "recall": 1.0
+    },
+    "trigger_rag": {
+      "hit_rate": 1.0,
+      "recall": 1.0
+    }
+  },
+  "haystack": {
+    "flat_rag": {
+      "hit_rate": 0.8666666666666667,
+      "recall": 0.8666666666666667
+    },
+    "trigger_rag": {
+      "hit_rate": 0.9,
+      "recall": 0.9
+    },
+    "per_query": [
+      {
+        "id": "8a2466db",
+        "query": "Can you recommend some resources where I can learn more about video editing?",
+        "n_docs": 50,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "6dcf5fa0_1",
+          "answer_edb03329",
+          "b67748d1_1",
+          "e3cc9931_1",
+          "sharegpt_osTHjYi_0"
+        ]
+      },
+      {
+        "id": "06878be2",
+        "query": "Can you suggest some accessories that would complement my current photography se",
+        "n_docs": 48,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "3e9fce53_1",
+          "8fcfbe43_2",
+          "answer_555dfb94",
+          "dc18f65b",
+          "ultrachat_474421"
+        ]
+      },
+      {
+        "id": "75832dbd",
+        "query": "Can you recommend some recent publications or conferences that I might find inte",
+        "n_docs": 48,
+        "flat_recall": 0.0,
+        "trigger_recall": 1.0,
+        "flat_hit": false,
+        "trigger_hit": true,
+        "triggered": [
+          "answer_d87a6ef8",
+          "be753d18",
+          "sharegpt_Vjkqc5J_0",
+          "ultrachat_165893",
+          "ultrachat_533748"
+        ]
+      },
+      {
+        "id": "0edc2aef",
+        "query": "Can you suggest a hotel for my upcoming trip to Miami?",
+        "n_docs": 46,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "08ca1f31_2",
+          "8464304d_2",
+          "answer_d586e9cd",
+          "c3023a45_1",
+          "f20e72e4_1"
+        ]
+      },
+      {
+        "id": "35a27287",
+        "query": "Can you recommend some interesting cultural events happening around me this week",
+        "n_docs": 51,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "58ae7c4f_3",
+          "880ee13e",
+          "a98ff421_1",
+          "answer_9b182436",
+          "ultrachat_267380"
+        ]
+      },
+      {
+        "id": "32260d93",
+        "query": "Can you recommend a show or movie for me to watch tonight?",
+        "n_docs": 46,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "04bef53b",
+          "573dc24b_1",
+          "answer_0250ae1c",
+          "d6bbe94d_3",
+          "ultrachat_507667"
+        ]
+      },
+      {
+        "id": "195a1a1b",
+        "query": "Can you suggest some activities that I can do in the evening?",
+        "n_docs": 46,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "1b71c896_2",
+          "87fff4b4_1",
+          "89a1800c_2",
+          "9f12daa1_1",
+          "answer_6dc4305e"
+        ]
+      },
+      {
+        "id": "afdc33df",
+        "query": "My kitchen's becoming a bit of a mess again. Any tips for keeping it clean?",
+        "n_docs": 46,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "22f9f163_3",
+          "ad8d9f0f",
+          "answer_8549e5e0",
+          "b6558bfb",
+          "d70b7418"
+        ]
+      },
+      {
+        "id": "caf03d32",
+        "query": "I've been struggling with my slow cooker recipes. Any advice on getting better r",
+        "n_docs": 51,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "147e93c4",
+          "8567068d_4",
+          "answer_2fc6aabb",
+          "bd6d0687",
+          "sharegpt_3D7Qpuq_14"
+        ]
+      },
+      {
+        "id": "54026fce",
+        "query": "I've been thinking about ways to stay connected with my colleagues. Any suggesti",
+        "n_docs": 49,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "answer_f7b22c66",
+          "e68d6ffc_1",
+          "ef5d4aa7_1",
+          "ultrachat_166270",
+          "ultrachat_337493"
+        ]
+      },
+      {
+        "id": "06f04340",
+        "query": "What should I serve for dinner this weekend with my homegrown ingredients?",
+        "n_docs": 55,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "66bfa1db",
+          "6e6fbb6b",
+          "8b156015_2",
+          "91223fd5_1",
+          "answer_92d5f7cd"
+        ]
+      },
+      {
+        "id": "6b7dfb22",
+        "query": "I've been feeling a bit stuck with my paintings lately. Do you have any ideas on",
+        "n_docs": 45,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "20348a4d",
+          "56859d37",
+          "9ee69ca6_3",
+          "answer_f6502d0f",
+          "fc69fd44_3"
+        ]
+      },
+      {
+        "id": "1a1907b4",
+        "query": "I've been thinking about making a cocktail for an upcoming get-together, but I'm",
+        "n_docs": 48,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "61d3fec4_1",
+          "8e78fa70_1",
+          "9585e0c6_1",
+          "answer_719502eb",
+          "e42e7876_5"
+        ]
+      },
+      {
+        "id": "09d032c9",
+        "query": "I've been having trouble with the battery life on my phone lately. Any tips?",
+        "n_docs": 43,
+        "flat_recall": 1.0,
+        "trigger_recall": 0.0,
+        "flat_hit": true,
+        "trigger_hit": false,
+        "triggered": [
+          "21ef2d05_1",
+          "46bab85b",
+          "b21bd3e2",
+          "e8bfacec_2",
+          "ultrachat_37105"
+        ]
+      },
+      {
+        "id": "38146c39",
+        "query": "I've been feeling like my chocolate chip cookies need something extra. Any advic",
+        "n_docs": 46,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "286aa281_5",
+          "5263736d_1",
+          "5806662d_1",
+          "87aaee77",
+          "answer_772472c8"
+        ]
+      },
+      {
+        "id": "d24813b1",
+        "query": "I'm thinking of inviting my colleagues over for a small gathering. Any tips on w",
+        "n_docs": 44,
+        "flat_recall": 0.0,
+        "trigger_recall": 0.0,
+        "flat_hit": false,
+        "trigger_hit": false,
+        "triggered": [
+          "3124bb28_1",
+          "446173bb_1",
+          "61a46ff7_3",
+          "e08bf81f_4",
+          "ultrachat_203993"
+        ]
+      },
+      {
+        "id": "57f827a0",
+        "query": "I was thinking about rearranging the furniture in my bedroom this weekend. Any t",
+        "n_docs": 51,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "1bff1675",
+          "6dd592c3",
+          "answer_1bde8d3b",
+          "d0f42e3f",
+          "e85e0eaf_1"
+        ]
+      },
+      {
+        "id": "95228167",
+        "query": "I'm getting excited about my visit to the music store this weekend. Any tips on ",
+        "n_docs": 49,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "084802f9_2",
+          "9f80607d",
+          "aec83540_1",
+          "answer_5e613445",
+          "b916da64_2"
+        ]
+      },
+      {
+        "id": "505af2f5",
+        "query": "I was thinking of trying a new coffee creamer recipe. Any recommendations?",
+        "n_docs": 53,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "0e193841_8",
+          "4f2d6be4_2",
+          "af631aa3_1",
+          "answer_f3164f2c",
+          "baf33acc"
+        ]
+      },
+      {
+        "id": "75f70248",
+        "query": "I've been sneezing quite a bit lately. Do you think it might be my living room?",
+        "n_docs": 42,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "answer_8ee04a2e"
+        ]
+      },
+      {
+        "id": "d6233ab6",
+        "query": "I've been feeling nostalgic lately. Do you think it would be a good idea to atte",
+        "n_docs": 44,
+        "flat_recall": 0.0,
+        "trigger_recall": 0.0,
+        "flat_hit": false,
+        "trigger_hit": false,
+        "triggered": [
+          "0e726047",
+          "94bc18df_3",
+          "e419b7c3_4",
+          "f916c63a_2",
+          "ultrachat_49450"
+        ]
+      },
+      {
+        "id": "1da05512",
+        "query": "I'm trying to decide whether to buy a NAS device now or wait. What do you think?",
+        "n_docs": 47,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "aea71da3_2",
+          "answer_4d3be2ab",
+          "f2565b3b_2",
+          "sharegpt_AtnznbL_0",
+          "sharegpt_eSTYwMj_14"
+        ]
+      },
+      {
+        "id": "fca70973",
+        "query": "I am planning another theme park weekend; do you have any suggestions?",
+        "n_docs": 45,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "5d5e80c5_1",
+          "answer_a1e169b1",
+          "f504b269",
+          "fc005760",
+          "ultrachat_546214"
+        ]
+      },
+      {
+        "id": "b6025781",
+        "query": "I'm planning my meal prep next week, any suggestions for new recipes?",
+        "n_docs": 47,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "1a693999_4",
+          "2ef53f61_1",
+          "612c8368_2",
+          "answer_8414cc57",
+          "f20c73f5_3"
+        ]
+      },
+      {
+        "id": "a89d7624",
+        "query": "I'm planning a trip to Denver soon. Any suggestions on what to do there?",
+        "n_docs": 49,
+        "flat_recall": 0.0,
+        "trigger_recall": 1.0,
+        "flat_hit": false,
+        "trigger_hit": true,
+        "triggered": [
+          "082fc07f_1",
+          "39a056ae",
+          "99f2f5b1_1",
+          "a479a7d6_4",
+          "answer_8f15ac24"
+        ]
+      },
+      {
+        "id": "b0479f84",
+        "query": "I've got some free time tonight, any documentary recommendations?",
+        "n_docs": 48,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "0cf86cbe_2",
+          "4b563ae6_1",
+          "4f37e5ec",
+          "answer_30f63ddb",
+          "fbfda981"
+        ]
+      },
+      {
+        "id": "1d4e3b97",
+        "query": "I noticed my bike seems to be performing even better during my Sunday group ride",
+        "n_docs": 45,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "answer_e6b6353d",
+          "ecb24dd8_2"
+        ]
+      },
+      {
+        "id": "07b6f563",
+        "query": "Can you suggest some useful accessories for my phone?",
+        "n_docs": 52,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "66ab6260",
+          "6af947bf_1",
+          "9baddc74",
+          "answer_d03098f9",
+          "bbccfe79"
+        ]
+      },
+      {
+        "id": "1c0ddc50",
+        "query": "Can you suggest some activities I can do during my commute to work?",
+        "n_docs": 51,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "2aa70c9c_1",
+          "a0aa5035",
+          "answer_8da8c7e0",
+          "c7ca6dff",
+          "ebc1319b"
+        ]
+      },
+      {
+        "id": "0a34ad58",
+        "query": "I\u2019m a bit anxious about getting around Tokyo. Do you have any helpful tips?",
+        "n_docs": 42,
+        "flat_recall": 1.0,
+        "trigger_recall": 1.0,
+        "flat_hit": true,
+        "trigger_hit": true,
+        "triggered": [
+          "38e81260_1",
+          "5c0574b1",
+          "answer_cebb7159",
+          "f7e682c3_5",
+          "f849dd04"
+        ]
+      }
+    ]
+  },
+  "n_questions": 30
+}
