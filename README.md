@@ -92,7 +92,6 @@ The strongest current signal is that Loqi begins to help in the kinds of cases w
 - `src/loqi/triggers/` - trigger extraction and matching
 - `scripts/` - benchmark and experiment runners
 - `tests/` - unit and integration tests
-- `plans/` - architecture notes, findings, and next-step memos
 - `results/` - saved experiment outputs
 
 ## Quickstart
@@ -120,14 +119,10 @@ pip install -e ".[dev,benchmarks]"
 pytest
 ```
 
-### Main Docs
+### Additional Documentation
 
-- [BENCHMARKS.md](./BENCHMARKS.md)
-- [ROADMAP.md](./ROADMAP.md)
-- [GPT.md](./GPT.md)
-- [plans/architecture_v2.md](./plans/architecture_v2.md)
-- [plans/llm_roles_v2_5.md](./plans/llm_roles_v2_5.md)
-- [plans/evaluation_metric_hierarchy.md](./plans/evaluation_metric_hierarchy.md)
+- [BENCHMARKS.md](./BENCHMARKS.md) — benchmark research and dataset catalog
+- [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) — dependency and data licenses
 
 ## Recommended Positioning
 
