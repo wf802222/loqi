@@ -2,103 +2,92 @@
 
 *Memory that speaks when it matters.*
 
-Loqi is an experimental memory architecture for AI systems. Instead of treating memory as a static document store queried only after the fact, Loqi is built around a different idea:
+**Loqi** (a phonetic play on *loci*, the plural of *locus* — the Latin root of the [method of loci](https://en.wikipedia.org/wiki/Method_of_loci), the ancient memory palace technique) is an experimental memory architecture for AI agents. Where the classical memory palace anchors memories to specific locations, Loqi anchors them to *contexts* — surfacing what matters before you ask for it.
 
-- memory is formed as work happens
-- useful connections can be built before a later query arrives
-- repeated useful co-activation should make future retrieval easier
+---
 
-Today, Loqi is best understood as a `continuous memory formation` prototype with:
+## What Loqi Does
 
-- section-level memory objects
-- write-time memory linking
-- downtime consolidation / "dreaming"
-- query-time retrieval through semantic, trigger, and graph channels
-- a small local LLM gate for trigger suppression
+Loqi is a continuous memory formation system. Instead of treating memory as a static document store queried after the fact, Loqi:
 
-## Current State
+- Forms memory as work happens (write-time processing)
+- Builds connections during downtime (consolidation / "dreaming")
+- Retrieves through three independent channels (semantic, triggers, graph)
+- Learns from feedback and grows new triggers from usage patterns (Hebbian closed loop)
+- Uses a local LLM gate to suppress false triggers (v2.5)
 
-Loqi is not a production system. It is a research prototype with a working architecture v2.
+## Current Evidence
 
-What is implemented:
+| Claim | Result | Benchmark |
+| --- | --- | --- |
+| Triggers surface standing instructions | 66.7% recall vs 20% baseline | Custom trigger benchmark (25 scenarios) |
+| Triggers work on published data | 0.900 vs 0.867 hit rate | LongMemEval preferences (ICLR 2025, n=30) |
+| Semantic-confound retrieval | **Loqi 1.000 vs flat RAG 0.833** | Hard temporal benchmark |
+| Co-activation learning | 0.833 (matches flat RAG after training) | Hard temporal benchmark |
+| Trigger suppression | 1.000 with SmolLM gate | Hard temporal benchmark |
+| Closed loop mechanism | Proven end-to-end | Integration test: co-activation -> promotion -> trigger creation -> trigger fires on new query |
+| Overall hard benchmark | 0.879 vs 0.924 flat RAG | 11 queries across 5 difficulty categories |
 
-- `MemoryWriter` for write-time section creation and linking
-- `Consolidator` for decay, replay, promotion, bridge discovery, and trigger mining
-- `SectionRetrieval` for three-channel retrieval:
-  - semantic similarity
-  - trigger firing
-  - graph traversal
+The strongest result: Loqi beats flat RAG on **semantic-confound** queries — where multiple sections share vocabulary but differ in operational meaning. This is the environment the architecture was designed for.
 
-What is currently interesting:
-
-- Loqi now works at the `section` level rather than treating whole files as single memory units.
-- It forms useful structure before later queries depend on it.
-- It has early evidence of real advantage over flat retrieval in `semantic-confound` cases.
-- It can improve with additional prior work episodes through Hebbian-style learning.
-- A small local LLM layer can improve trigger suppression without replacing the deterministic memory core.
-
-What is not yet proven:
-
-- consistent overall superiority to strong flat RAG baselines
-- robust proactive resurfacing in realistic environments
-- large-scale long-horizon behavior
-- institutional deployment readiness
-
-## Core Idea
-
-Loqi is built around three phases:
+## How It Works
 
 ### 1. Write-Time Processing
 
-When a document arrives, Loqi:
-- splits it into section-level memory objects
-- creates document and section nodes
-- builds containment and cross-section edges
-- extracts candidate triggers
+When a document arrives, Loqi splits it into **section-level memory objects** (by `##` headings), computes embeddings, creates containment edges, and discovers cross-section relationships with existing knowledge. This is not preprocessing — it is the first act of cognition.
 
 ### 2. Downtime Consolidation
 
-Between work episodes, Loqi:
-- decays weak or stale edges
-- replays recently useful episodes
-- promotes stronger connections
-- discovers bridge edges
-- mines trigger candidates
+Between work sessions, Loqi runs a consolidation cycle: decay stale edges, replay recent useful episodes, promote strong connections, discover bridge edges (A->B strong, B->C strong, propose A->C), and mine trigger candidates from repeated useful patterns.
 
-### 3. Query-Time Orchestration
+### 3. Query-Time Retrieval
 
-When a query arrives, Loqi retrieves through:
-- semantic similarity
-- triggers
-- graph traversal
+Three channels, each tracked separately:
+- **Semantic** — cosine similarity between query and section embeddings
+- **Triggers** — pre-retrieval pattern matching that fires on context, not query mention
+- **Graph** — 2-hop BFS from entry sections along learned edges
 
-Those signals are merged and ranked rather than collapsed into a single retrieval path.
+### 4. Hebbian Closed Loop
 
-## Why This Repo Exists
+The system learns from feedback: edges between co-activated useful sections strengthen, edges between useful and non-useful sections weaken, and frequently useful connections promote through DIFFUSE -> SOFT -> HARD -> **new Trigger**. The system literally grows its own trigger layer from usage patterns.
 
-This repo is trying to answer a specific question:
+### 5. LLM Trigger Gate (v2.5)
 
-`Can a memory system become more useful over time by living alongside work, rather than only retrieving from a frozen corpus?`
+A local SmolLM2 model (1.7B, via Ollama) acts as a cheap relevance filter on trigger candidates. It suppresses false positives that pass deterministic guards but are contextually irrelevant. The LLM does not create, modify, or delete memory — it only recommends suppress or allow.
 
-The strongest current signal is not that Loqi is universally better than flat RAG.
+## What This Repo Is Not
 
-The strongest current signal is that Loqi begins to help in the kinds of cases where plain semantic retrieval gets confused, and that repeated useful work episodes can improve later retrieval.
+- A production memory system
+- A demonstrated win over strong external baselines (HippoRAG, Microsoft GraphRAG)
+- A proven large-scale long-horizon memory architecture
+- A replacement for standard RAG in most use cases
+
+The evidence is promising in some areas and limited in others.
 
 ## Repository Layout
 
-- `src/loqi/graph/` - graph, writer, nodes, store
-- `src/loqi/hebbian/` - episode log, updater, promoter, consolidator, decay
-- `src/loqi/retrieval/` - section retrieval and retrieval policies
-- `src/loqi/triggers/` - trigger extraction and matching
-- `scripts/` - benchmark and experiment runners
-- `tests/` - unit and integration tests
-- `results/` - saved experiment outputs
+```
+src/loqi/
+  graph/        — Node/Edge/Trigger models, SQLite store, embeddings, MemoryWriter
+  triggers/     — trigger extraction (markdown + conversational) and matching
+  retrieval/    — FlatRAG, GraphRAG, TriggerRAG, SectionRetrieval (v2)
+  hebbian/      — episode log, updater, promoter, decay manager, consolidator
+  llm/          — Ollama client, SmolLM trigger gate, Phi-4 arbitrator
+  eval/         — metrics, protocol, evaluation runner
+  benchmarks/   — data loaders for MuSiQue, HotpotQA, LongMemEval, MemoryAgentBench
+  pipeline/     — PipelineConfig with ablation toggles
+
+scripts/        — benchmark and experiment runners
+tests/          — 166 unit and integration tests
+data/           — custom benchmark corpus and temporal benchmark scenarios
+results/        — saved experiment outputs
+```
 
 ## Quickstart
 
 ### Install
 
-With `uv`:
+With `uv` (recommended):
 
 ```bash
 uv venv
@@ -119,33 +108,27 @@ pip install -e ".[dev,benchmarks]"
 pytest
 ```
 
+### Run Benchmarks
+
+```bash
+python scripts/download_benchmarks.py    # fetch benchmark datasets
+python scripts/run_hard_benchmark.py     # hard temporal benchmark (Loqi vs flat RAG)
+python scripts/run_temporal_benchmark.py # temporal architecture benchmark
+```
+
 ### Additional Documentation
 
 - [BENCHMARKS.md](./BENCHMARKS.md) — benchmark research and dataset catalog
 - [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) — dependency and data licenses
 
-## Recommended Positioning
+## License
 
-The honest positioning for this repo today is:
-
-- research prototype
-- memory architecture experiment
-- evaluation harness for temporal memory systems
-
-Not:
-
-- production memory platform
-- enterprise knowledge system
-- proven replacement for strong baseline retrieval systems
+[MIT](./LICENSE) — Copyright 2026 Wyn Fox
 
 ## Short Version
 
-Loqi is an early but real memory system that:
+Loqi is a research prototype that asks: *can a memory system become more useful over time by living alongside work, rather than only retrieving from a frozen corpus?*
 
-- stores work as section-level memory
-- forms links as new material arrives
-- consolidates those links during downtime
-- retrieves through semantic, trigger, and graph channels
-- is beginning to show real value in ambiguous retrieval settings
+The early answer is yes — in environments where semantic similarity is ambiguous and useful connections had to be formed before the query arrived, Loqi's temporal architecture produces measurable advantage over flat search.
 
-That is enough to make the repo worth shipping today.
+That is enough to make the repo worth shipping.
