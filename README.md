@@ -96,6 +96,7 @@ python scripts/run_hard_benchmark.py
 ### Requirements
 
 - Python 3.12+
+- [uv](https://docs.astral.sh/uv/) recommended for reproducible installs (lockfile tracked). pip works but resolves dependencies fresh.
 - [Ollama](https://ollama.ai) with `qwen2.5-coder:14b` and `smollm2:1.7b` (for agent loop and LLM gate)
 - No GPU required — all models run on CPU
 

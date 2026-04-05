@@ -299,6 +299,8 @@ class GraphStore:
         embedding = None
         if row["embedding"] is not None:
             embedding = np.frombuffer(row["embedding"], dtype=np.float32).copy()
+            if embedding.size == 0:
+                embedding = None
 
         return Node(
             id=row["id"],
@@ -328,6 +330,8 @@ class GraphStore:
             embedding = np.frombuffer(
                 row["pattern_embedding"], dtype=np.float32
             ).copy()
+            if embedding.size == 0:
+                embedding = None
 
         return Trigger(
             id=row["id"],
