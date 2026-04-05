@@ -30,6 +30,8 @@ def _validate_id(value: str, label: str = "id") -> None:
         raise ValueError(f"{label} cannot be empty")
     if len(value) > _MAX_ID_LENGTH:
         raise ValueError(f"{label} exceeds max length ({len(value)} > {_MAX_ID_LENGTH})")
+    if "\x00" in value:
+        raise ValueError(f"{label} contains null bytes")
 
 
 class GraphStore:

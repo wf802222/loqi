@@ -50,6 +50,17 @@ class PipelineConfig:
     # --- Reproducibility ---
     random_seed: int = 42
 
+    def __post_init__(self):
+        """Validate config values are within sane bounds."""
+        if self.focused_max_depth < 0 or self.focused_max_depth > 20:
+            raise ValueError(f"focused_max_depth must be 0-20, got {self.focused_max_depth}")
+        if self.focused_top_k < 1 or self.focused_top_k > 1000:
+            raise ValueError(f"focused_top_k must be 1-1000, got {self.focused_top_k}")
+        if self.diffuse_top_k < 0 or self.diffuse_top_k > 1000:
+            raise ValueError(f"diffuse_top_k must be 0-1000, got {self.diffuse_top_k}")
+        if self.trigger_max_injections < 0 or self.trigger_max_injections > 50:
+            raise ValueError(f"trigger_max_injections must be 0-50, got {self.trigger_max_injections}")
+
     @property
     def variant_name(self) -> str:
         """Generate a human-readable name for this configuration."""

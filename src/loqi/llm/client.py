@@ -16,7 +16,12 @@ DEFAULT_TIMEOUT = 30  # seconds
 
 
 class OllamaClient:
-    """Simple client for the local Ollama API."""
+    """Simple client for the local Ollama API.
+
+    Security note: base_url defaults to localhost. If changed to an
+    external host, requests are sent over cleartext HTTP with no
+    authentication. Only use non-localhost URLs on trusted networks.
+    """
 
     def __init__(self, base_url: str = OLLAMA_BASE, timeout: int = DEFAULT_TIMEOUT):
         self._base = base_url

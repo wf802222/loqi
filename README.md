@@ -67,6 +67,7 @@ Loqi is built around three phases of continuous memory formation:
 ## What This Is Not
 
 - Not a production memory system
+- All benchmark and sandbox data is synthetic (fictional policies, not real company data)
 - Not a proven replacement for strong baseline RAG
 - Not validated at large scale or long time horizons
 - Not a general-purpose knowledge graph
