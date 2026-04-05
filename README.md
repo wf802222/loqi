@@ -12,15 +12,23 @@ Every AI coding assistant forgets. When the context window fills up, the system 
 
 Loqi stores standing instructions, project policies, and learned patterns in a persistent memory graph *outside* the context window. When context is compacted and the LLM forgets, Loqi re-injects the relevant rules before the next task.
 
-**Compaction experiment result:**
+**Compaction experiment (5 policy domains, 20 tasks, 3 models):**
 
 | | With Loqi | Without Loqi |
 |--|-----------|-------------|
-| Before compaction (rules in context) | 45% policy compliance | 53% policy compliance |
-| After compaction (rules erased) | **63%** | **17%** |
-| Compaction drop | **+18% (improved)** | **-36% (collapsed)** |
+| Before compaction (rules in context) | 63% compliance | 75% compliance |
+| After compaction (rules erased) | **42-50%** | **15-28%** |
+| Average advantage after compaction | | **+24pp** |
 
-Without Loqi, the model drops from 53% to 17% — it loses almost all institutional knowledge. With Loqi, the model actually *improves* to 63% because Loqi surfaces only the relevant policies per task instead of a full policy dump.
+Without Loqi, models lose most institutional knowledge after compaction. With Loqi, policies are re-injected from external memory. The advantage holds across all three models tested.
+
+**Tested across models:**
+
+| Acting Model | Post-Compaction (Loqi) | Post-Compaction (No Loqi) | Delta |
+|-------------|----------------------|-------------------------|-------|
+| qwen2.5-coder:14b | 42% | 15% | +27pp |
+| phi4 | 47% | 28% | +19pp |
+| mistral-nemo:12b | 50% | 24% | +26pp |
 
 ## How It Works
 
@@ -37,7 +45,8 @@ Task arrives
 ```
 
 Three retrieval channels work together:
-- **Triggers** — pattern-based pre-retrieval that fires on context match, not query mention
+
+- **Triggers** — pattern-based pre-retrieval that fires on context match, not query mention. This is the primary contributor (+11pp over flat retrieval in ablation).
 - **Graph traversal** — follows learned edges between related memory sections
 - **Semantic search** — embedding similarity as the baseline
 
@@ -47,30 +56,29 @@ The system also learns. Connections between memories that are repeatedly useful 
 
 | Experiment | Result |
 |-----------|--------|
-| **Compaction resistance** | **+46pp** — Loqi 63% vs no-memory 17% after context loss |
+| Compaction resistance (expanded) | **+24pp average** across 3 models, 5 policy domains |
+| Ablation: triggers | Primary contributor (+11pp over flat retrieval) |
+| Proactive resurfacing | 80% precision (4/5 helpful, 4/5 correct silence) |
 | Semantic-confound retrieval | Loqi 1.000 vs flat RAG 0.833 on ambiguous queries |
-| Trigger recall | 66.7% vs 20% baseline on standing instruction surfacing |
 | LongMemEval (ICLR 2025) | 0.900 vs 0.867 on preference recall (n=30) |
 | Closed loop | Proven — Hebbian learning creates triggers that fire on new queries |
-| Agent loop (10 tasks) | 100% rule compliance with Loqi memory across all tasks |
 
 ## Architecture
 
 Loqi is built around three phases of continuous memory formation:
 
-**1. Write-time processing** — When a document arrives, Loqi splits it into section-level memory objects, computes embeddings, and discovers cross-section relationships with existing knowledge. This is not indexing — it's the first act of cognition.
+**1. Write-time processing** — When a document arrives, Loqi splits it into section-level memory objects, computes embeddings, and discovers cross-section relationships with existing knowledge.
 
-**2. Downtime consolidation** — Between work sessions, Loqi runs a consolidation cycle: decay stale edges, replay useful episodes, promote strong connections, discover bridge edges, and mine trigger candidates. The brain analogy is sleep consolidation.
+**2. Downtime consolidation** — Between work sessions, Loqi runs a consolidation cycle: decay stale edges, replay useful episodes, promote strong connections, discover bridge edges, and mine trigger candidates.
 
 **3. Query-time orchestration** — Three independent channels (semantic, triggers, graph) retrieve and rank relevant sections. A local SmolLM2 model acts as a trigger suppression gate to prevent false positives.
 
 ## What This Is Not
 
 - Not a production memory system
-- All benchmark and sandbox data is synthetic (fictional policies, not real company data)
-- Not a proven replacement for strong baseline RAG
+- Not a proven replacement for strong baseline RAG in all scenarios
 - Not validated at large scale or long time horizons
-- Not a general-purpose knowledge graph
+- All benchmark data is synthetic (fictional policies, not real company data)
 
 Loqi is a research prototype exploring whether AI memory should be proactive rather than purely query-driven.
 
