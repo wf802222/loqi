@@ -121,6 +121,12 @@ python scripts/run_temporal_benchmark.py # temporal architecture benchmark
 - [BENCHMARKS.md](./BENCHMARKS.md) — benchmark research and dataset catalog
 - [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) — dependency and data licenses
 
+## Contributors
+
+- **Wyn Fox** — architecture design, experiment design, project direction
+- **Claude** (Anthropic, Opus 4.6) — implementation, evaluation harness, benchmarks, tests
+- **GPT** (OpenAI, o3) — strategic review, benchmark critique, architecture feedback, documentation
+
 ## License
 
 [MIT](./LICENSE) — Copyright 2026 Wyn Fox
