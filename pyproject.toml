@@ -1,5 +1,5 @@
 [project]
-name = "loqi"
+name = "loqi-memory"
 version = "0.1.0"
 description = "A novel AI memory architecture combining associative triggers, focused/diffuse retrieval, and Hebbian learning"
 readme = "README.md"
